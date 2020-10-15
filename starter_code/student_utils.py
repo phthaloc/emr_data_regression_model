@@ -30,7 +30,7 @@ def select_first_encounter(df):
     '''
     first_encounter_ids = df.groupby('patient_nbr')['encounter_id'].min()
     first_encounter_df = df[df['encounter_id'].isin(first_encounter_ids)]
-    return first_encounter_df
+    return first_encounter_df.reset_index(drop=True)
 
 
 #Question 6
@@ -48,7 +48,8 @@ def patient_dataset_splitter(df, patient_key='patient_nbr'):
     train = df.sample(n=int(0.6 * nr_patients))
     validation = df[~df[patient_key].isin(train[patient_key])].sample(n=int(0.2 * nr_patients))
     test = df[~df[patient_key].isin(pd.concat([train[patient_key], validation[patient_key]]))]
-    return train, validation, test
+
+    return train.reset_index(drop=True), validation.reset_index(drop=True), test.reset_index(drop=True)
 
 
 #Question 7
@@ -63,7 +64,9 @@ def create_tf_categorical_feature_cols(categorical_col_list, vocab_dir='./diabet
     for c in categorical_col_list:
         vocab_file_path = os.path.join(vocab_dir,  c + "_vocab.txt")
         tf_categorical_feature_column = tf.feature_column.categorical_column_with_vocabulary_file(
-            c, vocab_file_path, num_oov_buckets=1
+            c,
+            vocab_file_path,
+            num_oov_buckets=1
         )
         tf_categorical_feature_column = tf.feature_column.indicator_column(
             tf_categorical_feature_column
@@ -77,7 +80,7 @@ def normalize_numeric_with_zscore(col, mean, std):
     '''
     This function can be used in conjunction with the tf feature column for normalization
     '''
-    return (col - mean)/std
+    return (col - mean) / std
 
 
 def create_tf_numeric_feature(col, MEAN, STD, default_value=0):
