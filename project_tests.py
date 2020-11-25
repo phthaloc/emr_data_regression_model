@@ -2,7 +2,6 @@ import unittest
 import pandas as pd
 import numpy as np
 import tensorflow as tf
-from student_utils import *
 from utils import *
 
 class ProjectTesting(unittest.TestCase):
