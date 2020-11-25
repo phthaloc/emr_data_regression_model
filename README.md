@@ -97,4 +97,8 @@ ipython3 kernel install --name udacity-ehr-env --user
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md]()
+This project is licensed under the MIT License
+
+
+*This project is part of the Udacity Nanodegree programm "AI in Healthcare" (November 2020).*
+
